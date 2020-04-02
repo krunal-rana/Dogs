@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="dog"
+            type="com.lionheartapps.rk.dogs.model.DogBreed" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.DetailFragment">
+
+        <ImageView
+            android:id="@+id/imageDog"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:imageUrl="@{dog.imageUrl}"
+            android:minHeight="200dp"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tvDogName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageDog"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="serif"
+            android:padding="4dp"
+            android:hint="@{dog.dogBreed}"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDogPurpose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDogName"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:padding="4dp"
+            android:hint="@{dog.breedFor}"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/tvDogTemper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDogPurpose"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:padding="4dp"
+            android:hint="@{dog.temperament}"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDogLifeSpan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDogTemper"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif"
+            android:padding="4dp"
+            android:hint="@{dog.lifeSpan}"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</layout>

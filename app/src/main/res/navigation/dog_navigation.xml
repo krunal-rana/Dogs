@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dog_navigation"
+    app:startDestination="@id/listFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.lionheartapps.rk.dogs.view.ListFragment"
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/actionDetailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.lionheartapps.rk.dogs.view.DetailFragment"
+        android:label="DetailFragment" >
+
+        <action
+            android:id="@+id/actionListFragment"
+            app:destination="@id/listFragment" />
+
+        <argument
+            android:name="dogUuid"
+            android:defaultValue="0"
+            app:argType="integer"/>
+
+    </fragment>
+
+</navigation>
