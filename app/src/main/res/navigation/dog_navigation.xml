@@ -15,6 +15,9 @@
             app:destination="@id/detailFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/actionSettings"
+            app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment
@@ -32,5 +35,9 @@
             app:argType="integer"/>
 
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.lionheartapps.rk.dogs.view.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>

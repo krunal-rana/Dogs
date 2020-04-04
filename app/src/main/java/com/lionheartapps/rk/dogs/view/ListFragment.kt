@@ -2,24 +2,15 @@ package com.lionheartapps.rk.dogs.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.lionheartapps.rk.dogs.R
 import com.lionheartapps.rk.dogs.viewmodel.ListViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
-import java.time.LocalDate.of
-import java.util.stream.Collector.of
 
 /**
  * A simple [Fragment] subclass.
@@ -34,6 +25,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list, container, false)
 
@@ -47,7 +39,7 @@ class ListFragment : Fragment() {
         viewModel.refresh()
 
 
-        recyclerView_dogs.apply{
+        recyclerView_dogs.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = dogListAdapter
         }
@@ -63,9 +55,9 @@ class ListFragment : Fragment() {
     }
 
     @SuppressLint("FragmentLiveDataObserve")
-    fun observeViewModel(){
+    fun observeViewModel() {
 
-        viewModel.dogs.observe(this, Observer {dogs ->
+        viewModel.dogs.observe(this, Observer { dogs ->
             dogs?.let {
                 recyclerView_dogs.visibility = View.VISIBLE
                 dogListAdapter.updateDogList(dogs)
@@ -74,20 +66,37 @@ class ListFragment : Fragment() {
         })
         viewModel.dogsLoadError.observe(this, Observer { isError ->
             isError?.let {
-                tvListError.visibility = if(it) View.VISIBLE else View.GONE
+                tvListError.visibility = if (it) View.VISIBLE else View.GONE
             }
         })
 
         viewModel.loading.observe(this, Observer { isLoading ->
             isLoading?.let {
-                progressBar.visibility = if(it) View.VISIBLE else View.GONE
-                if(it){
+                progressBar.visibility = if (it) View.VISIBLE else View.GONE
+                if (it) {
                     recyclerView_dogs.visibility = View.GONE
                     tvListError.visibility = View.GONE
                 }
             }
         })
-
-
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.item_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> {
+                view?.let {
+                    Navigation.findNavController(it)
+                        .navigate(ListFragmentDirections.actionSettings())
+                }
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

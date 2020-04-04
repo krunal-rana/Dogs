@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.lionheartapps.rk.dogs.model.DogBreed
 import com.lionheartapps.rk.dogs.model.DogDatabase
 import com.lionheartapps.rk.dogs.model.DogsApiService
+import com.lionheartapps.rk.dogs.util.NotificationsHelper
 import com.lionheartapps.rk.dogs.util.SharedPreferenceHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 
 class ListViewModel(application: Application):  BaseViewModel(application) {
 
@@ -26,6 +28,7 @@ class ListViewModel(application: Application):  BaseViewModel(application) {
     val loading = MutableLiveData<Boolean>()
 
     fun refresh(){
+        checkCacheDuration()
         val updateTime = prefHelper.getUpdateTime()
 
         if(updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime) {
@@ -35,6 +38,18 @@ class ListViewModel(application: Application):  BaseViewModel(application) {
         }
 
 
+    }
+
+    private fun checkCacheDuration(){
+        val cachePref = prefHelper.getCacheDuration()
+
+        try {
+            val cachePrefInt = cachePref?.toInt() ?: 5 * 60
+            refreshTime = cachePrefInt.times( 1000 * 1000 * 1000L)
+
+        }catch (e: NumberFormatException){
+            e.printStackTrace()
+        }
     }
 
     fun refreshBypassCache(){
@@ -48,6 +63,7 @@ class ListViewModel(application: Application):  BaseViewModel(application) {
             dogsRetrieved(dogs)
 
             Toast.makeText(getApplication(), "Dogs retrieved from database", Toast.LENGTH_LONG).show()
+
         }
     }
 
@@ -62,7 +78,7 @@ class ListViewModel(application: Application):  BaseViewModel(application) {
                     override fun onSuccess(dogList: List<DogBreed>) {
                         storeDogLocally(dogList) // Store data locally
                         Toast.makeText(getApplication(), "Dogs retrieved from endpoint", Toast.LENGTH_LONG).show()
-
+                        NotificationsHelper(getApplication()).createNotification()
                     }
 
                     override fun onError(e: Throwable) {

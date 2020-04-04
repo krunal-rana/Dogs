@@ -8,6 +8,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lionheartapps.rk.dogs.R
 
+
+val PERMISSION_SENS_SMS = 234
+
 fun getProgressDrawable(context: Context): CircularProgressDrawable {
 
     return CircularProgressDrawable(context).apply {
